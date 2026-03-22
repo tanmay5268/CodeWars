@@ -16,6 +16,7 @@
     "@repo/ui": "workspace:*",
     "@repo/utils": "workspace:*",
     "@tailwindcss/postcss": "^4.2.2",
+    "axios": "^1.13.6",
     "next": "16.2.0",
     "postcss": "^8.5.8",
     "react": "^19.2.0",
@@ -33,4 +34,3 @@
     "typescript": "5.9.2"
   }
 }
-

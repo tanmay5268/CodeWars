@@ -6,5 +6,5 @@
     "ignore":[
         "dist"
     ],
-    "exec":"npm run build"
+    "exec":"npm-run-all --serial build start"
 }
