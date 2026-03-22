@@ -1,7 +1,20 @@
-import React from 'react'
+import Create from "./Create";
+import Join from "./Join";
 
-export const RoomStatus = () => {
+interface RoomStatusProps {
+    whatTodo: string;
+}
+export const RoomStatus = (props: RoomStatusProps) => {
+
   return (
-    <div>RoomStatus</div>
+    <div>
+        <div>RoomStatus</div>
+      {props.whatTodo === "create" && (
+        <Create />
+      )}
+      {props.whatTodo === "join" && (
+        <Join />
+      )}
+    </div>
   )
 }

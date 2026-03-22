@@ -10,8 +10,8 @@
   "references": [
     { "path": "./apps/web" },
     { "path": "./apps/api" },
-    { "path": "./packages/utils" },
-    { "path": "./packages/typescript-config" }
+    { "path": "./packages/ui" },
+    { "path": "./packages/utils" }
     // Add all your workspaces here
   ]
 }
