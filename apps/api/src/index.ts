@@ -17,7 +17,7 @@ const io = new Server(server, {
     }
 });
 
-const codeMap = new Map<string, string>();
+const hostcodeMap = new Map<string, string>();
 const socketToCode = new Map<string, string>();
 
 io.on("connection", (socket) => {
@@ -37,24 +37,25 @@ io.on("connection", (socket) => {
             roomCode = Math.floor(Math.random() * 1000000)
                 .toString()
                 .padStart(6, "0");
-        } while (codeMap.has(roomCode));
+        } while (hostcodeMap.has(roomCode));
 
         // console.log("Room created with code:", roomCode);
 
         if (typeof ack === "function") {
             ack({ code: roomCode });
         }
-        codeMap.set(roomCode, socket.id);
+        hostcodeMap.set(roomCode, socket.id);
         socketToCode.set(socket.id, roomCode);
-        console.log(codeMap);
+        console.log(hostcodeMap);
         console.log(socketToCode);
     });
 
     socket.on("joinRoom", (data) => {
-        const { roomCode } = data;
-        socket.join(roomCode);
-        console.log(`User ${socket.id} joined room: ${roomCode}`);
-        socket.emit("joinedRoom", { roomCode });
+        console.log(`User ${socket.id} joined room: ${data.code}`);
+        hostcodeMap.set(data.code, socket.id);
+        socketToCode.set(socket.id, data.code);
+        console.log(hostcodeMap);
+        console.log(socketToCode);
     });
 
     socket.on("send_message", (data) => {
@@ -78,9 +79,9 @@ io.on("connection", (socket) => {
         const code = socketToCode.get(socket.id);
         if (code) {
             console.log(socketToCode);
-            console.log(codeMap);
+            console.log(hostcodeMap);
             socketToCode.delete(socket.id);
-            codeMap.delete(code);
+            hostcodeMap.delete(code);
         }
     });
 });
@@ -89,7 +90,7 @@ app.post('/joinRoom', (req, res) => {
     console.log("Join room request received with body:", req.body);
     try {
         const { code } = req.body;
-        if (codeMap.has(code)) {
+        if (hostcodeMap.has(code)) {
             res.send({ available: true });
         } else {
             res.send({ available: false });

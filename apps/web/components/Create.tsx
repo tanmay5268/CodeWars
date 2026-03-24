@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSocket } from '../context/SocketContext';
+import Lobby from './Lobby';
 
 type SocketRoomMeta = {
     __roomCode?: string;
@@ -36,7 +37,7 @@ const Create = () => {
                 if (mounted) {
                     setRoomCode((prev) => (prev === data.code ? prev : data.code));
                 }
-               
+
             });
 
             return () => {
@@ -52,9 +53,9 @@ const Create = () => {
 
     return (
         <div>
-            create Component
             {socket?.id}
             {roomCode ? ` | room: ${roomCode}` : null}
+            <Lobby />
         </div>
     );
 };

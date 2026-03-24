@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useSocket } from "../context/SocketContext";
+import Lobby from "./Lobby";
 
 const JoinRoom = () => {
     const [joinCode, setJoinCode] = useState("");
@@ -45,7 +46,7 @@ const JoinRoom = () => {
 
                     console.log("Joined room with code:", joinCode);
                     setCodeSuccess(true);
-
+                    console.log(newSocket);
 
                     newSocket.off("connect", handleConnect);
                 };
@@ -98,7 +99,7 @@ const JoinRoom = () => {
 
             {codeSuccess && (
                 <p className="text-green-600 font-semibold">
-                    Successfully joined! Redirecting...
+                    Successfully joined!
                 </p>
             )}
 
@@ -107,6 +108,7 @@ const JoinRoom = () => {
                     ✓ Socket connected (ID: {socket.id})
                 </p>
             )}
+            <Lobby />
         </div>
     );
 };
