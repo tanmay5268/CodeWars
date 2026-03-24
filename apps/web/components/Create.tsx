@@ -55,7 +55,7 @@ const Create = () => {
         <div>
             {socket?.id}
             {roomCode ? ` | room: ${roomCode}` : null}
-            <Lobby />
+            <Lobby roomCode={roomCode} />
         </div>
     );
 };

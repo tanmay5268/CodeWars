@@ -52,7 +52,6 @@ io.on("connection", (socket) => {
 
     socket.on("joinRoom", (data) => {
         console.log(`User ${socket.id} joined room: ${data.code}`);
-        hostcodeMap.set(data.code, socket.id);
         socketToCode.set(socket.id, data.code);
         console.log(hostcodeMap);
         console.log(socketToCode);
@@ -71,6 +70,17 @@ io.on("connection", (socket) => {
     });
     socket.on("get_questions", (roomCode) => {
         io.emit(`questions-${roomCode}`);
+    })
+    socket.on('roomInfo',(roomCode)=>{
+        const clientsInRoom = Array.from(io.sockets.adapter.rooms.get(roomCode) || []);
+        const hostId = hostcodeMap.get(roomCode);
+        const isHost = hostId === socket.id;
+        const otherClients = clientsInRoom.filter(id => id !== socket.id);
+        socket.emit('roomInfoResponse', {
+            roomCode,
+            isHost,
+            otherClients
+        });
     })
 
     socket.on("disconnect", () => {

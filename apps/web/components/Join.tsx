@@ -58,6 +58,7 @@ const JoinRoom = () => {
                 }
             } else {
                 setError("Room code not found. Please check and try again.");
+                setJoinCode("");
             }
         } catch (err) {
             console.error("Error joining room:", err.message);
@@ -108,7 +109,7 @@ const JoinRoom = () => {
                     ✓ Socket connected (ID: {socket.id})
                 </p>
             )}
-            <Lobby />
+            <Lobby roomCode={joinCode} />
         </div>
     );
 };
