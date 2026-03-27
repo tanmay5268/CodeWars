@@ -9,7 +9,7 @@ type SocketRoomMeta = {
 };
 
 const Create = () => {
-    const { socket, initializeSocket } = useSocket();
+    const { initializeSocket } = useSocket();
     const [roomCode, setRoomCode] = useState<string | null>(null);
 
     useEffect(() => {
@@ -22,17 +22,15 @@ const Create = () => {
             }
 
             const socketWithMeta = activeSocket as typeof activeSocket & SocketRoomMeta;
+            console.log(typeof socketWithMeta);
 
             if (socketWithMeta.__roomCode && mounted) {
                 setRoomCode(socketWithMeta.__roomCode);
                 return;
             }
 
-            // In Next.js dev, React StrictMode intentionally runs effects twice.
-            // Use Socket.IO acknowledgements so even if a simulated unmount happens,
-            // we still capture the response without relying on an event listener.
+
             activeSocket.emit('CreateRoom', (data: { code: string }) => {
-                // Persist on the singleton socket so future mounts reuse it.
                 socketWithMeta.__roomCode = data.code;
                 if (mounted) {
                     setRoomCode((prev) => (prev === data.code ? prev : data.code));
@@ -53,7 +51,6 @@ const Create = () => {
 
     return (
         <div>
-            {socket?.id}
             {roomCode ? ` | room: ${roomCode}` : null}
             <Lobby roomCode={roomCode} />
         </div>

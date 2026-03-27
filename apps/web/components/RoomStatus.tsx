@@ -15,6 +15,8 @@ export const RoomStatus = (props: RoomStatusProps) => {
       {props.whatTodo === "join" && (
         <Join />
       )}
+       
+
     </div>
   )
 }

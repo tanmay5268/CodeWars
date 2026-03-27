@@ -56,31 +56,20 @@ io.on("connection", (socket) => {
         console.log(hostcodeMap);
         console.log(socketToCode);
     });
-
-    socket.on("send_message", (data) => {
-        const { roomCode, message, timestamp } = data;
-        console.log(`Message in room ${roomCode}: ${message}`);
-
-        // Send ONLY to users in this room
-        io.emit(`receive_message-${data.roomCode}`, {
-            message,
-            timestamp,
-            sender: socket.id
-        });
-    });
-    socket.on("get_questions", (roomCode) => {
-        io.emit(`questions-${roomCode}`);
-    })
     socket.on('roomInfo',(roomCode)=>{
-        const clientsInRoom = Array.from(io.sockets.adapter.rooms.get(roomCode) || []);
+        const clientsArray=[];
+        for(let [socketId, code] of socketToCode.entries()){
+            if(code === roomCode){
+                clientsArray.push(socketId);
+            }
+        }
         const hostId = hostcodeMap.get(roomCode);
         const isHost = hostId === socket.id;
-        const otherClients = clientsInRoom.filter(id => id !== socket.id);
+
         socket.emit('roomInfoResponse', {
             roomCode,
             isHost,
-            otherClients
-        });
+            clients: clientsArray});
     })
 
     socket.on("disconnect", () => {

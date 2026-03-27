@@ -59,6 +59,9 @@ const JoinRoom = () => {
             } else {
                 setError("Room code not found. Please check and try again.");
                 setJoinCode("");
+                setCodeSuccess(false);
+
+
             }
         } catch (err) {
             console.error("Error joining room:", err.message);
@@ -77,7 +80,6 @@ const JoinRoom = () => {
     return (
         <div className="flex flex-col items-center text-center mb-6 border-2 p-4 rounded-lg">
             <h2 className="mb-4 text-lg font-semibold">Join an Existing Room</h2>
-
             <input
                 type="text"
                 placeholder="Enter Room Code"
@@ -104,12 +106,9 @@ const JoinRoom = () => {
                 </p>
             )}
 
-            {socket && (
-                <p className="mt-3 text-sm text-blue-600">
-                    ✓ Socket connected (ID: {socket.id})
-                </p>
+            {codeSuccess && (
+                <Lobby roomCode={joinCode} />
             )}
-            <Lobby roomCode={joinCode} />
         </div>
     );
 };
