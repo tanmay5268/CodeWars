@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ",
     "build": "tsc -b"
   },
   "devDependencies": {

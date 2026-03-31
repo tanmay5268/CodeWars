@@ -1,3 +1,1 @@
-export function utility(params:string) {
-    console.log(params);
-}
+export { default } from './env';

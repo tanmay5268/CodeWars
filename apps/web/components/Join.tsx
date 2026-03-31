@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-
+import { useSocket } from "../context/SocketContext";
 import Lobby from "./Lobby";
 const JoinRoom = () => {
     const [joinCode, setJoinCode] = useState("");
@@ -10,7 +10,7 @@ const JoinRoom = () => {
 
     const { initializeSocket } = useSocket();
 
-    const handleCodeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCodeInput = (e) => {
         setJoinCode(e.target.value);
         setError("");
     };
@@ -76,7 +76,7 @@ const JoinRoom = () => {
         }
     };
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>    ) => {
+    const handleKeyPress = (e) => {
         if (e.key === "Enter") {
             joinWithCode();
         }
