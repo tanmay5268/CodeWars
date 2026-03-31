@@ -51,7 +51,6 @@ const Create = () => {
 
     return (
         <div>
-            {roomCode ? ` | room: ${roomCode}` : null}
             <Lobby roomCode={roomCode} />
         </div>
     );

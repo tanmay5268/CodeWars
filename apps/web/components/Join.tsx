@@ -2,14 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useSocket } from "../context/SocketContext";
 import Lobby from "./Lobby";
-
 const JoinRoom = () => {
     const [joinCode, setJoinCode] = useState("");
     const [codeSuccess, setCodeSuccess] = useState(false);
     const [isJoining, setIsJoining] = useState(false);
     const [error, setError] = useState("");
 
-    const { socket, initializeSocket } = useSocket();
+    const { initializeSocket } = useSocket();
 
     const handleCodeInput = (e) => {
         setJoinCode(e.target.value);
@@ -42,11 +41,17 @@ const JoinRoom = () => {
                 const handleConnect = () => {
                     console.log("Socket connected, now joining room...");
 
-                    newSocket.emit("joinRoom", { code: joinCode });
+                    newSocket.emit("joinRoom", { code: joinCode }, (joinAck: { ok: boolean; message?: string }) => {
+                        if (!joinAck?.ok) {
+                            setError(joinAck?.message || "Unable to join room");
+                            setCodeSuccess(false);
+                            return;
+                        }
 
-                    console.log("Joined room with code:", joinCode);
-                    setCodeSuccess(true);
-                    console.log(newSocket);
+                        console.log("Joined room with code:", joinCode);
+                        setCodeSuccess(true);
+                        console.log(newSocket);
+                    });
 
                     newSocket.off("connect", handleConnect);
                 };

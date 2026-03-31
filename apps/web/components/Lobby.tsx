@@ -5,19 +5,38 @@ const Lobby = ({roomCode}:{roomCode:string |null}) => {
     const {socket} = useSocket();
     const [data, setData] = useState<{roomCode:string, isHost:boolean, clients:string[]} | null>(null);
     useEffect(()=>{
-        if(!socket){
+        if(!socket || !roomCode){
             console.log("No socket connection in Lobby component");
             return;
         }
-        socket.emit("roomInfo", roomCode);
 
-        socket.on("roomInfoResponse",async (data) => {
-            console.log("Received room info:", data);
-            setData(data);
+        socket.emit("roomInfo", roomCode, (roomData: { roomCode: string; isHost: boolean; clients: string[]; message?: string }) => {
+            if (roomData?.message) {
+                return;
+            }
+            console.log(roomData);
+            setData(roomData);
         });
 
+        const onRoomUpdate = (updatedData: { roomCode: string; isHost: boolean; clients: string[] }) => {
+            if (updatedData.roomCode !== roomCode) {
+                return;
+            }
+            console.log("Received updated room info:", updatedData);
+            setData(updatedData);
+        };
+
+        socket.on("updateRoomInfo", onRoomUpdate);
+
+        const onRoomClosed = () => {
+            setData(null);
+        };
+
+        socket.on("roomClosed", onRoomClosed);
+
         return () => {
-            socket.off("roomInfoResponse");
+            socket.off("updateRoomInfo", onRoomUpdate);
+            socket.off("roomClosed", onRoomClosed);
         };
     }, [socket, roomCode]);
   return (
