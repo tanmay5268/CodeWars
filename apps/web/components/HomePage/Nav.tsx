@@ -3,10 +3,11 @@ import { MdTerminal } from "react-icons/md";
 import { SlEnergy } from "react-icons/sl";
 const Nav = () => {
   return (
-    <header className="fixed top-0 w-full z-50 bg-neutral-950 flex justify-between items-center px-6 h-16 border-none">
+    <div className="">
+    <header className="  w-full bg-neutral-950 flex justify-between items-center px-6 h-16 border-none">
       <div className="text-[#4ade80] uppercase text-2xl  flex items-center gap-3 font-[Space] font-bold">
         <MdTerminal size={26} />
-        Code_Wars
+        Code_strike
       </div>
       <nav className="flex uppercase justify-around items-center-safe font-[Space] h-10 text-white     w-80 gap-4">
         <button className="font-bold text-slate-500"> SIGN IN</button>
@@ -21,6 +22,7 @@ const Nav = () => {
         </div>
       </nav>
     </header>
+    </div>
   );
 };
 
