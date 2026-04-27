@@ -17,9 +17,10 @@
   "engines": {
     "node": ">=18"
   },
-  "imports": {
-    "@repo/*": "./packages/*"
-  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "dependencies": {
     "@prisma/client": "^7.5.0",
     "prisma": "^7.5.0"

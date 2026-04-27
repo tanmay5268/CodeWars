@@ -13,16 +13,19 @@
     "@repo/typescript-config": "workspace:*",
     "@repo/ui": "workspace:*",
     "@types/node": "^22.15.3",
+    "dotenv": "^17.3.1",
     "npm-run-all": "^4.1.5"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*"
   },
-  "exports": {
+   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   }
+
 }

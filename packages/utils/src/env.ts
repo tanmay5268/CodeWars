@@ -1,4 +1,4 @@
-import 'dotenv/config';
+
 class Env {
     static SOCKET_PORT = process.env.SOCKET_PORT;
     static SOCKET_URL = String(process.env.SOCKET_URL);

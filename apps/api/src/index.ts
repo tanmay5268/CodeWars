@@ -1,20 +1,22 @@
-import 'dotenv/config';
-import express from 'express';
-import http from 'http';
-import { Server } from 'socket.io';
-import cors from 'cors';
-import { requiredVars } from './env';
-import { log } from 'console';
+import "dotenv/config";
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+import { requiredVars } from "./env";
+
 const app = express();
 const port = requiredVars.SOCKET_PORT;
+
 app.use(express.json());
 app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin: requiredVars.FRONTEND_URL,
-        methods: ["GET", "POST"]
-    }
+        methods: ["GET", "POST"],
+        credentials: true,
+    },
 });
 
 const hostcodeMap = new Map<string, string>();
@@ -37,7 +39,7 @@ const emitRoomUpdate = (roomCode: string) => {
     }
 };
 
-io.on("connection", (socket) => {
+io.on("connection", socket => {
     console.log("User connected:", socket.id);
 
     socket.on("CreateRoom", (ack?: (payload: { code: string }) => void) => {
@@ -70,48 +72,56 @@ io.on("connection", (socket) => {
 
         emitRoomUpdate(roomCode);
         console.log(roomToClients);
-
     });
 
-    socket.on("joinRoom", (data: { code: string } | string, ack?: (payload: { ok: boolean; message?: string }) => void) => {
-        const roomCode = typeof data === "string" ? data : data?.code;
+    socket.on(
+        "joinRoom",
+        (data: { code: string } | string, ack?: (payload: { ok: boolean; message?: string }) => void) => {
+            const roomCode = typeof data === "string" ? data : data?.code;
 
-        if (!roomCode || !hostcodeMap.has(roomCode)) {
-            if (typeof ack === "function") {
-                ack({ ok: false, message: "Room not found" });
+            if (!roomCode || !hostcodeMap.has(roomCode)) {
+                if (typeof ack === "function") {
+                    ack({ ok: false, message: "Room not found" });
+                }
+                return;
             }
-            return;
-        }
 
-        console.log(`User ${socket.id} joined room: ${roomCode}`);
-        socketToCode.set(socket.id, roomCode);
-        socket.join(roomCode);
+            console.log(`User ${socket.id} joined room: ${roomCode}`);
+            socketToCode.set(socket.id, roomCode);
+            socket.join(roomCode);
 
-        if (!roomToClients.has(roomCode)) {
-            roomToClients.set(roomCode, new Set());
-        }
-        roomToClients.get(roomCode)?.add(socket.id);
-
-        emitRoomUpdate(roomCode);
-
-        if (typeof ack === "function") {
-            ack({ ok: true });
-        }
-        console.log(roomToClients);
-    });
-
-    socket.on('roomInfo', (roomCode: string, ack?: (payload: { roomCode: string; isHost: boolean; clients: string[] } | { message: string }) => void) => {
-        if (!roomCode || !hostcodeMap.has(roomCode)) {
-            if (typeof ack === "function") {
-                ack({ message: "Room not found" });
+            if (!roomToClients.has(roomCode)) {
+                roomToClients.set(roomCode, new Set());
             }
-            return;
-        }
+            roomToClients.get(roomCode)?.add(socket.id);
 
-        if (typeof ack === "function") {
-            ack(getRoomInfo(roomCode, socket.id));
-        }
-    });
+            emitRoomUpdate(roomCode);
+
+            if (typeof ack === "function") {
+                ack({ ok: true });
+            }
+            console.log(roomToClients);
+        },
+    );
+
+    socket.on(
+        "roomInfo",
+        (
+            roomCode: string,
+            ack?: (payload: { roomCode: string; isHost: boolean; clients: string[] } | { message: string }) => void,
+        ) => {
+            if (!roomCode || !hostcodeMap.has(roomCode)) {
+                if (typeof ack === "function") {
+                    ack({ message: "Room not found" });
+                }
+                return;
+            }
+
+            if (typeof ack === "function") {
+                ack(getRoomInfo(roomCode, socket.id));
+            }
+        },
+    );
 
     socket.on("someoneJoined", (roomCode: string) => {
         if (!roomCode || !hostcodeMap.has(roomCode)) {
@@ -152,7 +162,7 @@ io.on("connection", (socket) => {
     });
 });
 
-app.post('/joinRoom', (req, res) => {
+app.post("/joinRoom", (req, res) => {
     console.log("Join room request received with body:", req.body);
     try {
         const { code } = req.body;
