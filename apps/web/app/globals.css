@@ -1,1 +1,5 @@
 @import "tailwindcss";
+@font-face {
+    font-family: Space;
+    src: url("./fonts/SpaceGrotesk-VariableFont_wght.ttf") format("truetype");
+}
