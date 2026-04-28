@@ -10,7 +10,7 @@ const Nav = () => {
         Code_strike
       </div>
       <nav className="flex uppercase justify-around items-center-safe font-[Space] h-10 text-white     w-80 gap-4">
-        <button className="font-bold text-slate-500"> SIGN IN</button>
+        <button className="font-bold hover:text-[#9cff93] text-slate-500"> SIGN IN</button>
         <button className="text-[#9cff93] font-bold border px-4 ">
           SIGN UP
         </button>
