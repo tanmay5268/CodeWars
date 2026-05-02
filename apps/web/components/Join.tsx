@@ -68,8 +68,7 @@ const JoinRoom = () => {
 
 
             }
-        } catch (err) {
-            console.error("Error joining room:", err.message);
+        } catch (error) {
             setError("Error joining room. Please try again.");
         } finally {
             setIsJoining(false);
@@ -83,7 +82,7 @@ const JoinRoom = () => {
     };
 
     return (
-        <div className="flex flex-col items-center text-center mb-6 border-2 p-4 rounded-lg">
+        <div className="flex flex-col text-white items-center text-center mb-6 border-2 p-4 rounded-lg">
             <h2 className="mb-4 text-lg font-semibold">Join an Existing Room</h2>
             <input
                 type="text"
@@ -102,7 +101,7 @@ const JoinRoom = () => {
             >
                 {isJoining ? "Joining..." : "Join Room"}
             </button>
-
+            
             {error && <p className="text-red-500 mb-3 text-sm">{error}</p>}
 
             {codeSuccess && (

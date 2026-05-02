@@ -40,7 +40,7 @@ const Lobby = ({roomCode}:{roomCode:string |null}) => {
         };
     }, [socket, roomCode]);
   return (
-    <div>{
+    <div className="text-white">{
         data ? (
             <div>
                 <h2>Lobby</h2>
