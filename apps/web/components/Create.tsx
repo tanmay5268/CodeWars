@@ -22,8 +22,6 @@ const Create = () => {
             }
 
             const socketWithMeta = activeSocket as typeof activeSocket & SocketRoomMeta;
-            console.log(typeof socketWithMeta);
-
             if (socketWithMeta.__roomCode && mounted) {
                 setRoomCode(socketWithMeta.__roomCode);
                 return;

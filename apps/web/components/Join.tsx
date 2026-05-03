@@ -46,7 +46,6 @@ const JoinRoom = () => {
         }
 
         const handleConnect = () => {
-          console.log("Socket connected, now joining room...");
 
           newSocket.emit(
             "joinRoom",
@@ -58,9 +57,7 @@ const JoinRoom = () => {
                 return;
               }
 
-              console.log("Joined room with code:", joinCode);
               setCodeSuccess(true);
-              console.log(newSocket);
             },
           );
 
@@ -91,7 +88,7 @@ const JoinRoom = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center">
+    <div className="h-full w-full items-center justify-center">
         {!codeSuccess && <div className="flex justify-center items-center  h-full w-full ">
         <div
           className={`bg-[#c3ccf2] flex  w-fit flex-col h-fit gap-4 text-white justify-center items-center text-center px-3 py-3 rounded-sm transition-opacity duration-700 ease-in-out ${

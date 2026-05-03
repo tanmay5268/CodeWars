@@ -1,58 +1,80 @@
-"use client"
-import {  useEffect, useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { useSocket } from "../context/SocketContext";
-const Lobby = ({roomCode}:{roomCode:string |null}) => {
-    const {socket} = useSocket();
-    const [data, setData] = useState<{roomCode:string, isHost:boolean, clients:string[]} | null>(null);
-    useEffect(()=>{
-        if(!socket || !roomCode){
-            console.log("No socket connection in Lobby component");
-            return;
+const Lobby = ({ roomCode }: { roomCode: string | null }) => {
+  const { socket } = useSocket();
+  const [data, setData] = useState<{
+    roomCode: string;
+    isHost: boolean;
+    clients: string[];
+  } | null>(null);
+  useEffect(() => {
+    if (!socket || !roomCode) {
+      return;
+    }
+
+    socket.emit(
+      "roomInfo",
+      roomCode,
+      (roomData: {
+        roomCode: string;
+        isHost: boolean;
+        clients: string[];
+        message?: string;
+      }) => {
+        if (roomData?.message) {
+          return;
         }
+        setData(roomData);
+      },
+    );
 
-        socket.emit("roomInfo", roomCode, (roomData: { roomCode: string; isHost: boolean; clients: string[]; message?: string }) => {
-            if (roomData?.message) {
-                return;
-            }
-            console.log(roomData);
-            setData(roomData);
-        });
+    const onRoomUpdate = (updatedData: {
+      roomCode: string;
+      isHost: boolean;
+      clients: string[];
+    }) => {
+      if (updatedData.roomCode !== roomCode) {
+        return;
+      }
+      setData(updatedData);
+    };
 
-        const onRoomUpdate = (updatedData: { roomCode: string; isHost: boolean; clients: string[] }) => {
-            if (updatedData.roomCode !== roomCode) {
-                return;
-            }
-            console.log("Received updated room info:", updatedData);
-            setData(updatedData);
-        };
+    socket.on("updateRoomInfo", onRoomUpdate);
 
-        socket.on("updateRoomInfo", onRoomUpdate);
+    const onRoomClosed = () => {
+      setData(null);
+    };
 
-        const onRoomClosed = () => {
-            setData(null);
-        };
+    socket.on("roomClosed", onRoomClosed);
 
-        socket.on("roomClosed", onRoomClosed);
-
-        return () => {
-            socket.off("updateRoomInfo", onRoomUpdate);
-            socket.off("roomClosed", onRoomClosed);
-        };
-    }, [socket, roomCode]);
+    return () => {
+      socket.off("updateRoomInfo", onRoomUpdate);
+      socket.off("roomClosed", onRoomClosed);
+    };
+  }, [socket, roomCode]);
   return (
-    <div className="text-white">{
-        data ? (
-            <div>
-                <h2>Lobby</h2>
-                <p>Room Code: {data.roomCode}</p>
-                <p>{data.isHost ? "You are the host" : "You are a participant"}</p>
-                <p>Clients in room: {data.clients.join(", ")}</p>
-            </div>
-        ) : (
-            <p>Loading room info...</p>
-        )
-    }</div>
-  )
-}
+    <div className="text-white">
+      {data ? (
+        <div>
+          <h2>Lobby</h2>
+          <p>Room Code: {data.roomCode}</p>
+          <p>{data.isHost ? "You are the host" : "You are a participant"}</p>
+          <ul>
+            {data.clients.map((client, index) => (
+              client === socket?.id ? (
+                <li key={index}>{client} (You)</li>
+              ) : (
+                <li key={index}>{client}</li>
+              )
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>Loading room info...</p>
+      )}
+    </div>
+  );
+};
 
-export default Lobby
+export default Lobby;
