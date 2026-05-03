@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSocket } from "../context/SocketContext";
 import Lobby from "./Lobby";
+import { ChangeEvent } from "react";
 const JoinRoom = () => {
   const [joinCode, setJoinCode] = useState("");
   const [codeSuccess, setCodeSuccess] = useState(false);
@@ -16,7 +17,7 @@ const JoinRoom = () => {
     return () => cancelAnimationFrame(id);
   }, []);
 
-  const handleCodeInput = (e) => {
+  const handleCodeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setJoinCode(e.target.value);
     setError("");
   };
@@ -76,14 +77,14 @@ const JoinRoom = () => {
         setJoinCode("");
         setCodeSuccess(false);
       }
-    } catch (error) {
-      setError("Error joining room. Please try again.");
+    } catch (e) {
+      setError(`Error joining room ------ ${e}.`);
     } finally {
       setIsJoining(false);
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       joinWithCode();
     }
