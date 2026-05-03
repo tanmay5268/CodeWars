@@ -4,7 +4,7 @@ import { SlEnergy } from "react-icons/sl";
 const Nav = () => {
   return (
     <div className="">
-    <header className="  w-full bg-neutral-950 flex justify-between items-center px-6 h-16 border-none">
+    <header className=" overflow-hidden w-full bg-neutral-950 flex justify-between items-center px-6 h-16 border-none">
       <div className="text-[#4ade80] uppercase text-2xl  flex items-center gap-3 font-[Space] font-bold">
         <MdTerminal size={26} />
         Code_strike
