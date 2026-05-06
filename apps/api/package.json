@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
-    "build": "pnpm --filter @repo/utils build && tsc -b",
+    "build": "tsc -b",
     "start": "node dist/index.js"
   },
   "dependencies": {

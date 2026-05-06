@@ -57,7 +57,6 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         const onConnect = () => {
             connectingRef.current = false;
             setIsConnecting(false);
-            console.log("Socket connected with ID:", socket.id);
         };
 
         const onDisconnect = () => {
