@@ -88,34 +88,55 @@ const JoinRoom = () => {
   };
 
   return (
-    <div className="h-full w-full items-center justify-center">
-        {!codeSuccess && <div className="flex justify-center items-center  h-full w-full ">
-        <div
-          className={`bg-[#c3ccf2] flex  w-fit flex-col h-fit gap-4 text-white justify-center items-center text-center px-3 py-3 rounded-sm transition-opacity duration-700 ease-in-out ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <input
-            className="rounded-sm py-3 px-3   bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-[#9cff93] w-64"
-            type="text"
-            placeholder="Enter Room Code"
-            value={joinCode}
-            onChange={handleCodeInput}
-            onKeyUp={handleKeyPress}
-            disabled={isJoining}
-          />
-          <div className=" w-full flex items-center justify-center">
-            <button
-              onClick={joinWithCode}
-              disabled={isJoining}
-              className="transition-all shadow-[3px_3px_0px_#00e038] hover:shadow-none hover:translate-x-0.75 uppercase hover:translate-y-0.75 text-neutral-950 w-full py-3 text-xl font-[Space] rounded-sm  font-bold bg-[#9cff92]  focus:outline-none focus:ring-2 focus:ring-[#9cff93]">
-              {isJoining ? "Joining..." : "Enter Room"}
-            </button>
+    <div className="h-full w-full items-center justify-center font-[Space]">
+      {!codeSuccess && (
+        <div className="flex h-full w-full items-center justify-center">
+          <div
+            className={`w-full max-w-sm rounded-sm border border-[#2b1b26] bg-[#0f0d13] px-5 py-5 text-[#e9dbe3] shadow-[0_0_28px_rgba(120,223,251,0.08)] transition-opacity duration-700 ease-in-out ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[10px] uppercase font-bold tracking-[0.35em] text-[#78dffb]">
+                  Join Room
+                </p>
+                <p className="text-xs text-[#bfa3b0]">
+                  Enter the match code to connect
+                </p>
+              </div>
+              <span className="rounded-sm border border-[#3a2130] px-2 py-1 text-[10px] uppercase tracking-[0.25em] text-[#9cff93]">
+                Ready
+              </span>
+            </div>
+
+            <div className="mt-4 space-y-3">
+              <input
+                className="w-full rounded-sm border border-[#2a2a2a] bg-[#14111a] px-3 py-3 text-sm text-white placeholder:text-[#6f5f69] focus:outline-none focus:ring-2 focus:ring-[#9cff93]"
+                type="text"
+                placeholder="Enter Room Code"
+                value={joinCode}
+                onChange={handleCodeInput}
+                onKeyUp={handleKeyPress}
+                disabled={isJoining}
+              />
+              <button
+                onClick={joinWithCode}
+                disabled={isJoining}
+                className="w-full rounded-sm bg-[#9cff92] py-3 text-base font-bold uppercase text-neutral-950 shadow-[3px_3px_0px_#00e038] transition-all hover:translate-x-0.75 hover:translate-y-0.75 hover:shadow-none focus:outline-none focus:ring-2 focus:ring-[#9cff93] disabled:cursor-not-allowed disabled:bg-[#6da96a]"
+              >
+                {isJoining ? "Joining..." : "Enter Room"}
+              </button>
+            </div>
+
+            <div className="mt-4 rounded-sm border border-dashed border-[#2b1b26] px-3 py-2 text-[12px] font-medium text-[#a38a98]">
+              Make sure your friend is already waiting in the lobby.
+            </div>
           </div>
         </div>
-      </div> }
-      
-      {error && <p className="text-red-500 mb-3 text-sm">{error}</p>}
+      )}
+
+      {error && <p className="mb-3 text-center text-sm text-red-400">{error}</p>}
 
       {codeSuccess && <Lobby roomCode={joinCode} />}
     </div>
