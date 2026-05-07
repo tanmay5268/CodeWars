@@ -1,7 +1,14 @@
-import React from "react";
+"use client";
+import { useRouter } from "next/navigation";
 import { MdTerminal } from "react-icons/md";
 import { SlEnergy } from "react-icons/sl";
 const Nav = () => {
+  const router = useRouter();
+
+  function handleSignIn() {
+    // Implement sign-in logic here
+    router.push("/auth");
+  }
   return (
     <div className="">
     <header className=" overflow-hidden w-full bg-neutral-950 flex justify-between items-center px-6 h-16 border-none">
@@ -10,7 +17,9 @@ const Nav = () => {
         Code_strike
       </div>
       <nav className="flex uppercase justify-around items-center-safe font-[Space] h-10 text-white     w-80 gap-4">
-        <button className="font-bold hover:text-[#9cff93] text-slate-500"> SIGN IN</button>
+        <button className="font-bold hover:text-[#9cff93] text-slate-500" onClick={handleSignIn}>
+          SIGN IN
+        </button>
         <button className="text-[#9cff93] font-bold border px-4 ">
           SIGN UP
         </button>
