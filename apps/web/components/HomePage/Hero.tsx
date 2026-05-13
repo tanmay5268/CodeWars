@@ -21,7 +21,7 @@ const NeuButton2 = (props: { onClick: () => void }) => {
 const Hero = () => {
   const [whatTodo, setWhatTodo] = React.useState("");
   return (
-    <div className=" absolute px-4 bg-background h-screen w-screen">
+    <div className=" absolute px-4 bg-background h-screen max-sm:h-150 w-screen">
       <section className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* join/create section */}
@@ -31,7 +31,7 @@ const Hero = () => {
             </div>
             <h2 className="text-6xl md:text-8xl font-[Space] font-bold text-white leading-[0.9] text-on-surface tracking-tighter">
               CODE <br />
-              <span className="text-[#9cff93]">STRIKE</span>
+              <span className="text-[#9cff93]">WARS</span>
             </h2>
             <p className="text-on-surface-variant text-[#bfa3b0] font-[Space] text-lg max-w-md">
               The ultimate competitive arena for the modern developer. Duel in

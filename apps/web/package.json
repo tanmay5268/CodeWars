@@ -15,7 +15,6 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
     "@repo/db": "workspace:*",
-    "@repo/utils": "workspace:*",
     "@tailwindcss/postcss": "^4.2.2",
     "axios": "^1.13.6",
     "class-variance-authority": "^0.7.1",

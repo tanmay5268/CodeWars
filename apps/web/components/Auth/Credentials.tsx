@@ -32,10 +32,10 @@ const Credentials = () => {
           placeholder="Email"
           name="email"
           className="
-            h-10 w-[250px]
+            h-10 w-62.5
             rounded-[5px]
             border-2 border-[#323232]
-            bg-white px-[10px] py-[5px]
+            bg-white px-2.5 py-1.25
             text-[15px] font-semibold text-[#323232]
             outline-none
             shadow-[4px_4px_0px_#323232]
@@ -46,10 +46,10 @@ const Credentials = () => {
           placeholder="Password"
           name="password"
           className="
-            h-10 w-[250px]
+            h-10 w-62.5
             rounded-[5px]
             border-2 border-[#323232]
-            bg-white px-[10px] py-[5px]
+            bg-white px-2.5 py-1.25
             text-[15px] font-semibold text-[#323232]
             outline-none
             shadow-[4px_4px_0px_#323232]
@@ -62,8 +62,8 @@ const Credentials = () => {
           value="credentials"
           type="submit"
           className="
-            group relative z-10 flex h-10 w-[250px]
-            items-center justify-center gap-[5px]
+            group relative z-10 flex h-10 w-62.5
+            items-center justify-center gap-1.25
             overflow-hidden rounded-[5px]
             border-2 border-[#323232]
             bg-white text-[16px] font-semibold text-[#323232]

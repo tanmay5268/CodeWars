@@ -23,6 +23,7 @@ const JoinRoom = () => {
   };
 
   const joinWithCode = async () => {
+    
     if (!joinCode.trim()) {
       setError("Please enter a room code");
       return;

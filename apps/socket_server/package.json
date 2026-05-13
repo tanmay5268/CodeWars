@@ -10,7 +10,6 @@
   "dependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@repo/utils": "workspace:*",
     "@types/node": "^22.15.3",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",

@@ -9,8 +9,7 @@
   "include": [],
   "references": [
     { "path": "./apps/web" },
-    { "path": "./apps/api" },
-    { "path": "./packages/ui" },
+    { "path": "./apps/socket_server" },
     { "path": "./packages/utils" }
     // Add all your workspaces here
   ]

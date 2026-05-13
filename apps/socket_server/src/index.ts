@@ -3,17 +3,15 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
-import { requiredVars } from "./env";
 
 const app = express();
-const port = requiredVars.SOCKET_PORT;
-
+const port = process.env.SOCKET_PORT; 
 app.use(express.json());
 app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: requiredVars.FRONTEND_URL,
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"],
         credentials: true,
     },
