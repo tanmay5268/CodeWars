@@ -1,10 +1,12 @@
 "use client";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSocket } from "../context/SocketContext";
 import Lobby from "./Lobby";
 import { ChangeEvent } from "react";
 const JoinRoom = () => {
+  const { data: session } = useSession();
   const [joinCode, setJoinCode] = useState("");
   const [codeSuccess, setCodeSuccess] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
@@ -50,7 +52,7 @@ const JoinRoom = () => {
 
           newSocket.emit(
             "joinRoom",
-            { code: joinCode },
+            { code: joinCode, username: session?.user?.name || "Guest" },
             (joinAck: { ok: boolean; message?: string }) => {
               if (!joinAck?.ok) {
                 setError(joinAck?.message || "Unable to join room");

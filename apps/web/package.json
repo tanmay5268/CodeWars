@@ -17,6 +17,7 @@
     "@repo/db": "workspace:*",
     "@tailwindcss/postcss": "^4.2.2",
     "axios": "^1.13.6",
+    "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.14.0",

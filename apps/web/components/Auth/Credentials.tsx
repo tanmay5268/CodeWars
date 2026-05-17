@@ -28,6 +28,20 @@ const Credentials = () => {
   return (
     <form onSubmit={handleCredentialsSubmit} className="w-full flex flex-col gap-4">
         <input
+          type="text"
+          placeholder="Name"
+          name="name"
+          className="
+            h-10 w-62.5
+            rounded-[5px]
+            border-2 border-[#323232]
+            bg-white px-2.5 py-1.25
+            text-[15px] font-semibold text-[#323232]
+            outline-none
+            shadow-[4px_4px_0px_#323232]
+          "
+        />
+        <input
           type="email"
           placeholder="Email"
           name="email"

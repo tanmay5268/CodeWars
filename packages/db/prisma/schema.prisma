@@ -11,19 +11,18 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-
+enum Provider{
+  credentials
+  google
+  github
+}
 model User { 
   id    Int     @id @default(autoincrement()) 
   email String  @unique
   name  String?
-  posts Post[]
-} 
-
-model Post { 
-  id        Int     @id @default(autoincrement()) 
-  title     String
-  content   String?
-  published Boolean @default(false) 
-  author    User    @relation(fields: [authorId], references: [id]) 
-  authorId  Int
-} 
+  password String?
+  provider Provider? @default(credentials)
+  CurrentStreak Int     @default(0)
+  TotalWins Int     @default(0)
+  MatchesPlayed Int     @default(0)
+}

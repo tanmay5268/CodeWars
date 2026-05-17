@@ -21,7 +21,7 @@ const hostcodeMap = new Map<string, string>();
 const socketToCode = new Map<string, string>();
 const roomToClients = new Map<string, Set<string>>();
 
-const getRoomInfo = (roomCode: string, requesterId: string) => {
+const getRoomInfo = (roomCode: string, requesterId: string) => { 
     const hostId = hostcodeMap.get(roomCode);
     const isHost = hostId === requesterId;
     const clients = Array.from(roomToClients.get(roomCode) ?? []);
@@ -74,8 +74,9 @@ io.on("connection", socket => {
 
     socket.on(
         "joinRoom",
-        (data: { code: string } | string, ack?: (payload: { ok: boolean; message?: string }) => void) => {
+        (data: { code: string, username: string } | string, ack?: (payload: { ok: boolean; message?: string }) => void) => {
             const roomCode = typeof data === "string" ? data : data?.code;
+            const username = typeof data === "object" ? data.username : undefined;
 
             if (!roomCode || !hostcodeMap.has(roomCode)) {
                 if (typeof ack === "function") {

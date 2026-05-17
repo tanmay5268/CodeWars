@@ -21,7 +21,7 @@ const NeuButton2 = (props: { onClick: () => void }) => {
 const Hero = () => {
   const [whatTodo, setWhatTodo] = React.useState("");
   return (
-    <div className=" absolute px-4 bg-background h-screen max-sm:h-150 w-screen">
+    <div className=" absolute px-4 bg-background h-screen max-md:h-fit  max-sm:h-150 w-screen">
       <section className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* join/create section */}
