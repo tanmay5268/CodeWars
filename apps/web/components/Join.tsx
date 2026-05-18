@@ -6,7 +6,7 @@ import { useSocket } from "../context/SocketContext";
 import Lobby from "./Lobby";
 import { ChangeEvent } from "react";
 const JoinRoom = () => {
-  const { data: session } = useSession();
+  const { data: session,status } = useSession();
   const [joinCode, setJoinCode] = useState("");
   const [codeSuccess, setCodeSuccess] = useState(false);
   const [isJoining, setIsJoining] = useState(false);

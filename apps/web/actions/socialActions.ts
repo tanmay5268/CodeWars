@@ -3,8 +3,7 @@ import { signIn, signOut } from "apps/web/lib/auth";
 // --------------------------------------------------------------------
 export async function handleLogin(formData: FormData) {
   const action = formData.get("action");
-    const response = await signIn(action as string, { redirectTo: "/" });
-    console.log("RESPONSE FROM SOCIALACTIONS.TS{google}:", response);
+     await signIn(action as string,{redirectTo: "/"});
   }
 
 // --------------------------------------------------------------------

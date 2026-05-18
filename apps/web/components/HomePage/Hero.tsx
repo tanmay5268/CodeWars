@@ -1,7 +1,10 @@
+"use client";
 import { VscDiffAdded } from "react-icons/vsc";
 import { RxExit } from "react-icons/rx";
-import React from "react";
+import React, { useEffect }from "react";
 import { RoomStatus } from "../RoomStatus";
+import { useSession } from "next-auth/react";
+import type { Session } from "next-auth";
 const NeuButton = (props: { onClick: () => void }) => {
   return (
     <button onClick={props.onClick} className="h-17 w-52 gap-2 font-bold bg-[#9cff92] text-neutral-950 font-[Space] uppercase flex items-center justify-center text-center text-lg  transition-all shadow-[3px_3px_0px_#00e038] hover:shadow-none hover:translate-x-0.75 hover:translate-y-0.75">
@@ -19,6 +22,23 @@ const NeuButton2 = (props: { onClick: () => void }) => {
   );
 };
 const Hero = () => {
+  const { data: session,status } = useSession();
+  function handleJoinClick() {
+    if(status === "unauthenticated"){
+      return alert("Please Signin to join a room.");
+    }
+    setWhatTodo("join");
+  }
+    function handleCreateClick() {
+      if(status === "unauthenticated"){
+        return alert("Please Signin to create a room.");
+      }
+      setWhatTodo("create");
+    }
+    useEffect(() => {
+      const sessionData = session as Session | null;
+      console.log("SESSION IN HERO COMPONENT:", "" + JSON.stringify(sessionData));
+    });
   const [whatTodo, setWhatTodo] = React.useState("");
   return (
     <div className=" absolute px-4 bg-background h-screen max-md:h-fit  max-sm:h-150 w-screen">
@@ -41,8 +61,8 @@ const Hero = () => {
               
             </p>
             <div className="flex gap-6">
-              <NeuButton onClick={() => setWhatTodo("join")} />
-              <NeuButton2 onClick={() => setWhatTodo("create")} />
+              <NeuButton onClick={() => handleJoinClick()} />
+              <NeuButton2 onClick={() => handleCreateClick()} />
             </div>
           </div>
           {/* lobby section */}

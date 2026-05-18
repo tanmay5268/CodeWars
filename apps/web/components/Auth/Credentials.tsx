@@ -1,12 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { handleCredentialsLogin } from "../../actions/socialActions";
 import { useSession } from "next-auth/react";
 const Credentials = () => {
     const [error,setError] = React.useState<string | null>(null);
     const router = useRouter();
-  const { update } = useSession();
+    const { data: session, update } = useSession();
+  useEffect(() => {
+    console.log("SESSION FROM CREDENTIALS COMPONENT:", "" + session);
+  }, [session]);
     async function handleCredentialsSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try{
