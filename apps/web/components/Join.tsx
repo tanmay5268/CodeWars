@@ -101,16 +101,13 @@ const JoinRoom = () => {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] uppercase font-bold tracking-[0.35em] text-[#78dffb]">
+                <p className="text-xs uppercase font-bold tracking-[0.35em] text-[#78dffb]">
                   Join Room
                 </p>
-                <p className="text-xs text-[#bfa3b0]">
+                <p className="text-xs font-medium text-[#bfa3b0]">
                   Enter the match code to connect
                 </p>
               </div>
-              <span className="rounded-sm border border-[#3a2130] px-2 py-1 text-[10px] uppercase tracking-[0.25em] text-[#9cff93]">
-                Ready
-              </span>
             </div>
 
             <div className="mt-4 space-y-3">
@@ -131,9 +128,8 @@ const JoinRoom = () => {
                 {isJoining ? "Joining..." : "Enter Room"}
               </button>
             </div>
-
-            <div className="mt-4 rounded-sm border border-dashed border-[#2b1b26] px-3 py-2 text-[12px] font-medium text-[#a38a98]">
-              Make sure your friend is already waiting in the lobby.
+            <div className="mt-4 rounded-sm border border-dashed border-[#2b1b26] px-3 py-2 text-xs font-medium text-[#a38a98]">
+              Make sure the host is already waiting in the lobby.
             </div>
           </div>
         </div>

@@ -1,9 +1,32 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../context/SocketContext";
 
 const Lobby = ({ roomCode }: { roomCode: string | null }) => {
   const { socket } = useSocket();
+  const copiedRef = useRef<HTMLSpanElement>(null);
+  const [copied, setCopied] = useState(false);
+  async function handleCopy() {
+    if (!copiedRef.current) return;
+    try {
+      await navigator.clipboard.writeText(copiedRef.current.textContent || "");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  }
+  useEffect(() => {
+    const currentRef = copiedRef.current;
+    if (currentRef) {
+      currentRef.addEventListener("click", handleCopy);
+    }
+    return () => {
+      if (currentRef) {
+        currentRef.removeEventListener("click", handleCopy);
+      }
+    };
+  }, []);
   const [data, setData] = useState<{
     roomCode: string;
     isHost: boolean;
@@ -60,14 +83,14 @@ const Lobby = ({ roomCode }: { roomCode: string | null }) => {
         <div className="flex h-full min-h-0 flex-col gap-4">
           <div className="flex items-center justify-between rounded-sm border border-[#3a2130] bg-[#14111a] px-4 py-3 shadow-[0_0_24px_rgba(156,255,147,0.08)]">
             <div>
-              <p className="text-[12px] font-bold uppercase tracking-[0.35em] text-[#9cff93]">
+              <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#9cff93]">
                 Lobby
               </p>
               <p className="text-xs text-[#bfa3b0]">Waiting for players</p>
             </div>
             <div className="flex items-center gap-2">
               <span
-                className={`rounded-sm px-2 py-1 text-[10px] font-bold uppercase tracking-[0.25em] ${
+                className={`rounded-sm px-2 py-1 text-xs font-bold uppercase tracking-[0.25em] ${
                   data.isHost
                     ? "bg-[#9cff93] text-[#0b0b0b]"
                     : "bg-[#d375fe] text-[#140b1a]"
@@ -75,7 +98,7 @@ const Lobby = ({ roomCode }: { roomCode: string | null }) => {
               >
                 {data.isHost ? "Host" : "Participant"}
               </span> 
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#78dffb]">
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#78dffb]">
                 Online
               </span>
             </div>
@@ -83,16 +106,19 @@ const Lobby = ({ roomCode }: { roomCode: string | null }) => {
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.2fr_1fr]">
             <div className="rounded-sm border border-[#2b1b26] bg-[#0f0d13] p-4">
-              <p className="text-[12px] font-medium  uppercase tracking-wider text-[#bfa3b0]">
+              <p className="text-xs font-medium  uppercase tracking-wider text-[#bfa3b0]">
                 Room Code
               </p>
               <div className="mt-3 flex items-center gap-3">
-                <span className="text-2xl font-bold text-[#9cff93] tracking-[0.3em]">
+                <span ref={copiedRef} className="text-2xl font-bold text-[#9cff93] tracking-[0.3em]">
                   {data.roomCode}
                 </span>
-                <span className="rounded-sm border border-[#2a2a2a] px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-[#78dffb]">
-                  Share
-                </span>
+                <button
+                  className="rounded-sm border font-bold border-[#2a2a2a] px-2 py-1 text-xs transition-all duration-200 ease-out hover:scale-105 active:scale-95  uppercase tracking-[0.2em] text-[#78dffb]"
+                  onClick={handleCopy}
+                >
+                  {copied ? "Copied!" : "Copy"}
+                </button>
               </div>
               <p className="mt-3 text-xs text-[#a38a98]">
                 Give this code to friends to join your match.
