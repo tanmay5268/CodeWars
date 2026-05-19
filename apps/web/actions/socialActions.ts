@@ -20,6 +20,7 @@ export async function handleCredentialsLogin(formData: FormData) {
       // this is false because in case incorect credentials we want to stay on the same page and show an error message instead of redirecting to the home page
       redirect: false,
     });
+    
     return response;
   } catch (error) {
     console.log("ERROR FROM SOCIALACTIONS.TS:", error);

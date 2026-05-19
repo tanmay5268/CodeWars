@@ -4,37 +4,41 @@ import React, { useEffect } from "react";
 import { handleCredentialsLogin } from "../../actions/socialActions";
 import { useSession } from "next-auth/react";
 const Credentials = () => {
-    const [error,setError] = React.useState<string | null>(null);
-    const router = useRouter();
-    const { data: session, update } = useSession();
+  const [error, setError] = React.useState<string | null>(null);
+  const router = useRouter();
+  const { data: session, update } = useSession();
   useEffect(() => {
     console.log("SESSION FROM CREDENTIALS COMPONENT:", "" + session);
   }, [session]);
-    async function handleCredentialsSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        try{
-            const formData = new FormData(event.currentTarget);
-            const response = await handleCredentialsLogin(formData);
-            if(response?.error){
+  async function handleCredentialsSubmit(
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+    try {
+      const formData = new FormData(event.currentTarget);
+      const response = await handleCredentialsLogin(formData);
+      console.log("Response from handleCredentialsLogin:", response);
+      if (response?.error) {
         setError(response.error);
-            }
-            else{
-                setError(null)
+      } else {
+        setError(null);
         await update();
-                router.push("/");
-            }
-        }
-        catch(e){
-            setError("An error occurred during login");
-        }
+        router.push("/");
+      }
+    } catch (e) {
+      setError("An error occurred during login");
     }
+  }
   return (
-    <form onSubmit={handleCredentialsSubmit} className="w-full flex flex-col gap-4">
-        <input
-          type="text"
-          placeholder="Name"
-          name="name"
-          className="
+    <form
+      onSubmit={handleCredentialsSubmit}
+      className="w-full flex flex-col gap-4"
+    >
+      <input
+        type="text"
+        placeholder="Name"
+        name="name"
+        className="
             h-10 w-62.5
             rounded-[5px]
             border-2 border-[#323232]
@@ -43,12 +47,12 @@ const Credentials = () => {
             outline-none
             shadow-[4px_4px_0px_#323232]
           "
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          className="
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        name="email"
+        className="
             h-10 w-62.5
             rounded-[5px]
             border-2 border-[#323232]
@@ -57,12 +61,12 @@ const Credentials = () => {
             outline-none
             shadow-[4px_4px_0px_#323232]
           "
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          className="
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        name="password"
+        className="
             h-10 w-62.5
             rounded-[5px]
             border-2 border-[#323232]
@@ -71,14 +75,14 @@ const Credentials = () => {
             outline-none
             shadow-[4px_4px_0px_#323232]
           "
-        />
+      />
 
-        {/* Continue Button */}
-        <button
-          name="action"
-          value="credentials"
-          type="submit"
-          className="
+      {/* Continue Button */}
+      <button
+        name="action"
+        value="credentials"
+        type="submit"
+        className="
             group relative z-10 flex h-10 w-62.5
             items-center justify-center gap-1.25
             overflow-hidden rounded-[5px]
@@ -93,24 +97,24 @@ const Credentials = () => {
             hover:text-[#e8e8e8]
             hover:before:w-full
           "
+      >
+        Continue
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={24}
+          height={24}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-6 w-6"
         >
-          Continue
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={24}
-            height={24}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-6 w-6"
-          >
-            <path d="m6 17 5-5-5-5" />
-            <path d="m13 17 5-5-5-5" />
-          </svg>
-        </button>
+          <path d="m6 17 5-5-5-5" />
+          <path d="m13 17 5-5-5-5" />
+        </svg>
+      </button>
     </form>
   );
 };

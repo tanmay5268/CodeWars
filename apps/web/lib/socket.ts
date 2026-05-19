@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-const DEFAULT_URL =  "http://localhost:4000";
+const DEFAULT_URL = "http://localhost:4000";
 
 declare global {
   var __codewarsSocket: Socket | undefined;
