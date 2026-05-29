@@ -1,11 +1,126 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700&display=swap");
+
 @font-face {
-    font-family: Space;
-    src: url("./fonts/SpaceGrotesk-VariableFont_wght.ttf") format("truetype");
+  font-family: "Geist";
+  src: url("./fonts/GeistVF.woff") format("woff-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
-@theme{
-        --color-background: #180913;
-        --color-primary:#00FF41;
-        --color-secondary:#BC13FE;
-        --color-tertiary:#00D9FF;
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("./fonts/GeistMonoVF.woff") format("woff-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-background: #180913;
+  --color-primary: #00ff41;
+  --color-secondary: #bc13fe;
+  --color-tertiary: #00d9ff;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: #f5edf2;
+  font-family: "Geist", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: "Unbounded", "Geist", sans-serif;
+}
+
+.font-body {
+  font-family: "Geist", "Segoe UI", sans-serif;
+}
+
+.font-mono {
+  font-family: "Geist Mono", "SFMono-Regular", ui-monospace, monospace;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(0, 255, 65, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 65, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(
+    circle at 50% 20%,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0) 70%
+  );
+}
+
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  opacity: 0.35;
+}
+
+.glow-orb {
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(188, 19, 254, 0.65),
+    rgba(24, 9, 19, 0) 70%
+  );
+  filter: blur(2px);
+}
+
+.glow-orb-secondary {
+  background: radial-gradient(
+    circle at 40% 40%,
+    rgba(0, 217, 255, 0.5),
+    rgba(24, 9, 19, 0) 70%
+  );
+  filter: blur(2px);
+}
+
+.glass-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(24, 9, 19, 0.9),
+    rgba(24, 9, 19, 0.6)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 40px rgba(0, 255, 65, 0.08),
+    inset 0 0 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.scanline {
+  position: relative;
+}
+
+.scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 100%
+  );
+  opacity: 0.3;
+  animation: scan 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }

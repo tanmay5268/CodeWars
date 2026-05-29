@@ -1,38 +1,51 @@
 import { useRouter } from "next/navigation";
 import { MdTerminal } from "react-icons/md";
 import { SlEnergy } from "react-icons/sl";
-import { useSession,signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 const Nav = () => {
   const router = useRouter();
-  const { data: session ,status} = useSession();  
+  const { data: session } = useSession();
+
   function handleSignIn() {
-    // Implement sign-in logic here
     router.push("/auth");
   }
+
   return (
-    <div>
-    <header className=" overflow-hidden w-full bg-neutral-950 flex justify-between items-center px-6 h-16 border-none">
-      <div className="text-[#4ade80] uppercase text-2xl  flex items-center gap-3 font-[Space] font-bold">
-        <MdTerminal size={26} />
-        Code_wars
-      </div>
-      <nav className="flex uppercase max-sm:justify-end justify-center items-center font-[Space] h-10 text-white w-80 gap-7">
-        {!session?.user ?<button className="font-bold border-2 hover:rounded-none rounded-lg px-2 py-1 hover:scale-105 transition-all ease-in-out duration-300 hover:text-[#9cff93] text-slate-500" onClick={handleSignIn}>
-          SIGN IN
-        </button> : <button className="font-bold border-2  hover:rounded-none max-sm:px-1 max-sm:py-0.5  rounded-lg px-2 py-1 hover:scale-105 transition-all ease-in-out duration-300 hover:text-[#9cff93] text-slate-500" onClick={() => signOut()}>
-          SIGN OUT
-        </button> }
-        
-        <div className="flex max-sm:hidden text-[#78dffb] items-center-safe justify-between gap-1 font-bold ">
-          <span>
-            <SlEnergy size={20} />
-          </span>
-          <h1>1234_XP</h1>
+    <header className="relative z-20 w-full border-b border-white/10 bg-black/40 px-6 py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-white/10 bg-black/40">
+            <MdTerminal size={20} className="text-primary" />
+          </div>
+          <div>
+            <p className="font-display text-lg uppercase tracking-[0.2em] text-white">
+              Code Wars
+            </p>
+            <p className="text-[11px] uppercase tracking-[0.35em] text-[#78dffb]">
+              arena console
+            </p>
+          </div>
         </div>
-      </nav>
+
+        <nav className="flex items-center gap-4">
+          <div className="hidden items-center gap-2 rounded-sm border border-white/10 bg-black/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#9cff93] md:flex">
+            <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(0,255,65,0.6)]" />
+            online
+          </div>
+          <button
+            className="rounded-sm border border-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/70 transition hover:border-[#9cff93] hover:text-[#9cff93]"
+            onClick={session?.user ? () => signOut() : handleSignIn}
+          >
+            {session?.user ? "Sign out" : "Sign in"}
+          </button>
+          <div className="hidden items-center gap-2 rounded-sm border border-white/10 bg-black/40 px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#78dffb] md:flex">
+            <SlEnergy size={14} />
+            1234 XP
+          </div>
+        </nav>
+      </div>
     </header>
-    </div>
   );
 };
 

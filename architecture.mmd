@@ -1,0 +1,51 @@
+%% CodeWars system architecture
+flowchart LR
+  Player((Player))
+
+  subgraph Client["Client Browser"]
+    UI["UI: Home, Auth, Join/Create, Lobby"]
+    SessionHook["Session hook (useSession)"]
+    SocketClient["Socket.IO client singleton"]
+    StatsView["RoomStatus shows user stats"]
+  end
+
+  subgraph Web["apps/web (Next.js App Router)"]
+    AppPages["App + pages (Home, Auth)"]
+    ServerActions["Server actions: handleLogin, handleLogout, handleCredentialsLogin"]
+    AuthRoute["NextAuth route handlers"]
+  end
+
+  subgraph SocketServer["apps/socket_server (Express + Socket.IO)"]
+    JoinHttp["POST /joinRoom"]
+    SocketEvents["Socket events: CreateRoom, joinRoom, roomInfo, updateRoomInfo, roomClosed"]
+    RoomState["In-memory room state maps"]
+  end
+
+  subgraph DB["packages/db (Prisma)"]
+    Prisma["Prisma Client"]
+    UserModel["User model + stats"]
+    Postgres[(PostgreSQL)]
+  end
+
+  OAuth["OAuth providers: Google, GitHub"]
+  Creds["Credentials login"]
+
+  Player --> UI
+  UI --> AppPages
+  UI --> ServerActions
+  ServerActions --> AuthRoute
+  AuthRoute --> Prisma
+  Prisma --> Postgres
+  Postgres --> UserModel
+  OAuth --> AuthRoute
+  Creds --> AuthRoute
+  AuthRoute --> SessionHook
+  SessionHook --> StatsView
+  StatsView --> UI
+
+  UI -->|HTTP availability check| JoinHttp
+  UI --> SocketClient
+  SocketClient <--> SocketEvents
+  SocketEvents --> RoomState
+  RoomState --> SocketEvents
+  SocketEvents --> SocketClient

@@ -78,43 +78,46 @@ const Lobby = ({ roomCode }: { roomCode: string | null }) => {
     };
   }, [socket, roomCode]);
   return (
-    <div className="h-full w-full p-4 font-[Space] text-[#e9dbe3]">
+    <div className="h-full w-full p-4 font-body text-[#e9dbe3]">
       {data ? (
         <div className="flex h-full min-h-0 flex-col gap-4">
-          <div className="flex items-center justify-between rounded-sm border border-[#3a2130] bg-[#14111a] px-4 py-3 shadow-[0_0_24px_rgba(156,255,147,0.08)]">
+          <div className="flex items-center justify-between rounded-sm border border-white/10 bg-black/40 px-4 py-3">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#9cff93]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.35em] text-[#9cff93]">
                 Lobby
               </p>
               <p className="text-xs text-[#bfa3b0]">Waiting for players</p>
             </div>
             <div className="flex items-center gap-2">
               <span
-                className={`rounded-sm px-2 py-1 text-xs font-bold uppercase tracking-[0.25em] ${
+                className={`rounded-sm px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] ${
                   data.isHost
                     ? "bg-[#9cff93] text-[#0b0b0b]"
                     : "bg-[#d375fe] text-[#140b1a]"
                 }`}
               >
                 {data.isHost ? "Host" : "Participant"}
-              </span> 
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#78dffb]">
+              </span>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#78dffb]">
                 Online
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.2fr_1fr]">
-            <div className="rounded-sm border border-[#2b1b26] bg-[#0f0d13] p-4">
-              <p className="text-xs font-medium  uppercase tracking-wider text-[#bfa3b0]">
-                Room Code
+            <div className="rounded-sm border border-white/10 bg-black/30 p-4">
+              <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-[#bfa3b0]">
+                Room code
               </p>
-              <div className="mt-3 flex items-center gap-3">
-                <span ref={copiedRef} className="text-2xl font-bold text-[#9cff93] tracking-[0.3em]">
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <span
+                  ref={copiedRef}
+                  className="font-display text-2xl text-[#9cff93] tracking-[0.3em]"
+                >
                   {data.roomCode}
                 </span>
                 <button
-                  className="rounded-sm border font-bold border-[#2a2a2a] px-2 py-1 text-xs transition-all duration-200 ease-out hover:scale-105 active:scale-95  uppercase tracking-[0.2em] text-[#78dffb]"
+                  className="rounded-sm border border-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-[#78dffb] transition-all duration-200 ease-out hover:scale-105 active:scale-95"
                   onClick={handleCopy}
                 >
                   {copied ? "Copied!" : "Copy"}
@@ -124,8 +127,8 @@ const Lobby = ({ roomCode }: { roomCode: string | null }) => {
                 Give this code to friends to join your match.
               </p>
             </div>
-            <div className="rounded-sm border border-[#2b1b26] bg-[#0f0d13] p-4">
-              <p className="text-[12px] font-medium uppercase tracking-[0.35em] text-[#bfa3b0]">
+            <div className="rounded-sm border border-white/10 bg-black/30 p-4">
+              <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-[#bfa3b0]">
                 Session
               </p>
               <div className="mt-3 space-y-2 text-sm">
@@ -153,18 +156,18 @@ const Lobby = ({ roomCode }: { roomCode: string | null }) => {
             </div>
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col rounded-sm border border-[#2b1b26] bg-[#0c0a10]">
-            <div className="flex items-center justify-between border-b border-[#20121b] px-4 py-2">
+          <div className="flex min-h-0 flex-1 flex-col rounded-sm border border-white/10 bg-black/20">
+            <div className="flex items-center justify-between border-b border-white/10 px-4 py-2">
               <p className="text-[10px] uppercase tracking-[0.35em] text-[#bfa3b0]">
-                Connected Players
+                Connected players
               </p>
               <span className="text-[10px] uppercase tracking-[0.3em] text-[#78dffb]">
                 {data.clients.length} online
               </span>
             </div>
-            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
+            <div className="min-h-0 flex-1 px-4 py-3 md:overflow-y-auto">
               {data.clients.length === 0 ? (
-                <div className="rounded-sm border border-dashed border-[#2b1b26] px-3 py-4 text-center text-xs text-[#a38a98]">
+                <div className="rounded-sm border border-dashed border-white/10 px-3 py-4 text-center text-xs text-[#a38a98]">
                   No players yet. Share the room code to invite others.
                 </div>
               ) : (
@@ -177,7 +180,7 @@ const Lobby = ({ roomCode }: { roomCode: string | null }) => {
                         className={`flex items-center justify-between rounded-sm border px-3 py-2 text-xs ${
                           isYou
                             ? "border-[#9cff93]/60 bg-[#122314] text-[#caffc1]"
-                            : "border-[#241722] bg-[#111018] text-[#d9c7d3]"
+                            : "border-white/10 bg-black/40 text-[#d9c7d3]"
                         }`}
                       >
                         <span className="font-mono tracking-[0.08em]">
@@ -202,7 +205,7 @@ const Lobby = ({ roomCode }: { roomCode: string | null }) => {
         </div>
       ) : (
         <div className="flex h-full items-center justify-center">
-          <div className="rounded-sm border border-[#2b1b26] bg-[#0f0d13] px-4 py-3 text-sm text-[#bfa3b0] shadow-[0_0_24px_rgba(156,255,147,0.08)]">
+          <div className="glass-panel rounded-sm px-4 py-3 text-sm text-[#bfa3b0]">
             Loading room info...
           </div>
         </div>

@@ -162,7 +162,7 @@ io.on("connection", socket => {
 });
 
 app.post("/joinRoom", (req, res) => {
-    console.log("Join room request received with body:", req.body);
+    console.log("Join room request received with body:", req);
     try {
         const { code } = req.body;
         if (hostcodeMap.has(code)) {

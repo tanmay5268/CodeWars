@@ -6,7 +6,7 @@ import { useSocket } from "../context/SocketContext";
 import Lobby from "./Lobby";
 import { ChangeEvent } from "react";
 const JoinRoom = () => {
-  const { data: session,status } = useSession();
+  const { data: session } = useSession();
   const [joinCode, setJoinCode] = useState("");
   const [codeSuccess, setCodeSuccess] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
@@ -25,7 +25,6 @@ const JoinRoom = () => {
   };
 
   const joinWithCode = async () => {
-    
     if (!joinCode.trim()) {
       setError("Please enter a room code");
       return;
@@ -49,7 +48,6 @@ const JoinRoom = () => {
         }
 
         const handleConnect = () => {
-
           newSocket.emit(
             "joinRoom",
             { code: joinCode, username: session?.user?.name || "Guest" },
@@ -91,30 +89,33 @@ const JoinRoom = () => {
   };
 
   return (
-    <div className="h-full w-full items-center justify-center font-[Space]">
+    <div className="flex h-full w-full flex-col font-body">
       {!codeSuccess && (
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="flex w-full flex-1 items-center justify-center">
           <div
-            className={`w-full max-w-sm rounded-sm border border-[#2b1b26] bg-[#0f0d13] px-5 py-5 text-[#e9dbe3] shadow-[0_0_28px_rgba(120,223,251,0.08)] transition-opacity duration-700 ease-in-out ${
+            className={`glass-panel w-full max-w-sm rounded-sm px-6 py-6 text-[#e9dbe3] transition-opacity duration-700 ease-in-out ${
               isVisible ? "opacity-100" : "opacity-0"
             }`}
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs uppercase font-bold tracking-[0.35em] text-[#78dffb]">
-                  Join Room
+                <p className="text-[11px] uppercase font-semibold tracking-[0.4em] text-[#78dffb]">
+                  Join room
                 </p>
                 <p className="text-xs font-medium text-[#bfa3b0]">
                   Enter the match code to connect
                 </p>
               </div>
+              <span className="text-[10px] uppercase tracking-[0.35em] text-[#9cff93]">
+                Ready
+              </span>
             </div>
 
-            <div className="mt-4 space-y-3">
+            <div className="mt-5 space-y-4">
               <input
-                className="w-full rounded-sm border border-[#2a2a2a] bg-[#14111a] px-3 py-3 text-sm text-white placeholder:text-[#6f5f69] focus:outline-none focus:ring-2 focus:ring-[#9cff93]"
+                className="w-full rounded-sm border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-[#6f5f69] focus:outline-none focus:ring-2 focus:ring-[#9cff93]"
                 type="text"
-                placeholder="Enter Room Code"
+                placeholder="Enter room code"
                 value={joinCode}
                 onChange={handleCodeInput}
                 onKeyUp={handleKeyPress}
@@ -123,19 +124,18 @@ const JoinRoom = () => {
               <button
                 onClick={joinWithCode}
                 disabled={isJoining}
-                className="w-full rounded-sm bg-[#9cff92] py-3 text-base font-bold uppercase text-neutral-950 shadow-[3px_3px_0px_#00e038] transition-all hover:translate-x-0.75 hover:translate-y-0.75 hover:shadow-none focus:outline-none focus:ring-2 focus:ring-[#9cff93] disabled:cursor-not-allowed disabled:bg-[#6da96a]"
+                className="w-full rounded-sm bg-primary py-3 text-xs font-semibold uppercase tracking-[0.35em] text-black shadow-[0_0_20px_rgba(0,255,65,0.35)] transition-all hover:translate-y-[-2px] hover:shadow-[0_0_35px_rgba(0,255,65,0.6)] focus:outline-none focus:ring-2 focus:ring-[#9cff93] disabled:cursor-not-allowed disabled:bg-[#6da96a]"
               >
-                {isJoining ? "Joining..." : "Enter Room"}
+                {isJoining ? "Joining..." : "Enter room"}
               </button>
             </div>
-            <div className="mt-4 rounded-sm border border-dashed border-[#2b1b26] px-3 py-2 text-xs font-medium text-[#a38a98]">
+            {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
+            <div className="mt-4 rounded-sm border border-dashed border-white/10 px-4 py-3 text-[11px] font-medium text-[#a38a98]">
               Make sure the host is already waiting in the lobby.
             </div>
           </div>
         </div>
       )}
-
-      {error && <p className="mb-3 text-center text-sm text-red-400">{error}</p>}
 
       {codeSuccess && <Lobby roomCode={joinCode} />}
     </div>
