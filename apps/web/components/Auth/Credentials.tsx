@@ -10,6 +10,7 @@ const Credentials = () => {
   useEffect(() => {
     console.log("SESSION FROM CREDENTIALS COMPONENT:", "" + session);
   }, [session]);
+
   async function handleCredentialsSubmit(
     event: React.FormEvent<HTMLFormElement>,
   ) {
